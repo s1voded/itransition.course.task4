@@ -117,6 +117,11 @@ namespace AuthWebApp.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                
+                //registration and first login time
+                user.RegistrationTime = DateTime.Now;
+                user.LastLoginTime = DateTime.Now;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

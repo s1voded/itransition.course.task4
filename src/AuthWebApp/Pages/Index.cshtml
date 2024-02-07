@@ -4,7 +4,58 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].RegistrationTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].LastLoginTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].BlockStatus)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    <input asp-for="@item.IsSelected" class="form-check-input" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastLoginTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlockStatus)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
