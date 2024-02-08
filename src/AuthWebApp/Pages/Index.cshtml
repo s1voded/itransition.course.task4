@@ -1,61 +1,69 @@
 ﻿@page
 @model IndexModel
+
 @{
     ViewData["Title"] = "Home page";
 }
 
+<form method="post">
 <table class="table">
-    <thead>
+        <thead>
         <tr>
             <th>
-
+                    <input asp-for="@Model.SelectAllUsers" class="form-check-input" name="SelectAllUsers">
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].Id)
+                    @Html.DisplayNameFor(model => model.Users[0].Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].UserName)
+                    @Html.DisplayNameFor(model => model.Users[0].UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].Email)
+                    @Html.DisplayNameFor(model => model.Users[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].RegistrationTime)
+                    @Html.DisplayNameFor(model => model.Users[0].RegistrationTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].LastLoginTime)
+                    @Html.DisplayNameFor(model => model.Users[0].LastLoginTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].BlockStatus)
+                    @Html.DisplayNameFor(model => model.Users[0].BlockStatus)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Users)
+        @for (var i = 0; i < Model.Users.Count(); i++)
         {
             <tr>
                 <td>
-                    <input asp-for="@item.IsSelected" class="form-check-input" />
+                        <input asp-for="@Model.Users[i].IsSelected" class="form-check-input" name="SelectedUserId" value="@Model.Users[i].Id">
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationTime)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].RegistrationTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastLoginTime)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].LastLoginTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BlockStatus)
+                        @Html.DisplayFor(modelItem => modelItem.Users[i].BlockStatus)
                 </td>
             </tr>
         }
     </tbody>
-</table>
+        <div class="container-buttons">
+        <input type="submit" value="Block" asp-page-handler="Block" class="btn btn-warning" />
+        <input type="submit" value="Unblock" asp-page-handler="Unblock" class="btn btn-success" />
+        <input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-danger" />
+        </div>
+    </table>
+</form>

@@ -13,6 +13,7 @@ namespace AuthWebApp.Model
         public DateTime LastLoginTime { get; set; }
 
         [Display(Name = "Status")]
+        [UIHint("UserIsBlocked")]
         public bool BlockStatus { get; set; }
 
         [NotMapped]

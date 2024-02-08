@@ -120,7 +120,7 @@ namespace AuthWebApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
 
-                    user.LastLoginTime = DateTime.Now;
+                    user.LastLoginTime = DateTime.UtcNow;
                     await _userManager.UpdateAsync(user);
 
                     _logger.LogInformation("User logged in.");

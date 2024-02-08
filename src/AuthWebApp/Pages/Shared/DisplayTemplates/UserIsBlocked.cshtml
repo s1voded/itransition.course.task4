@@ -1,0 +1,9 @@
+@model bool
+@if (Model == true)
+{
+    @Html.Encode("Blocked")
+}
+@if (Model == false)
+{
+    @Html.Encode("Active")
+}
