@@ -122,10 +122,7 @@ namespace AuthWebApp.Pages
             if (User.Identity.IsAuthenticated)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
-                {
-                    if (!currentUser.BlockStatus) allowPost = true;
-                }
+                if (currentUser != null && !currentUser.BlockStatus) allowPost = true;
                 else
                 {
                     await _signInManager.SignOutAsync();

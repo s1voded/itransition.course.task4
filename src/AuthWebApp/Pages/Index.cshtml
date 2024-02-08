@@ -2,15 +2,17 @@
 @model IndexModel
 
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Users";
 }
+
 
 <form method="post">
 <table class="table">
+        <caption>List of users</caption>
         <thead>
         <tr>
             <th>
-                    <input asp-for="@Model.SelectAllUsers" class="form-check-input" name="SelectAllUsers">
+                    <input type="checkbox" name="selectAll" id="selectAll" class="form-check-input" />
             </th>
             <th>
                     @Html.DisplayNameFor(model => model.Users[0].Id)
@@ -61,9 +63,38 @@
         }
     </tbody>
         <div class="container-buttons">
-        <input type="submit" value="Block" asp-page-handler="Block" class="btn btn-warning" />
-        <input type="submit" value="Unblock" asp-page-handler="Unblock" class="btn btn-success" />
-        <input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-danger" />
+            <button type="submit" asp-page-handler="Block" class="btn btn-outline-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2" />
+                </svg>
+                Block
+        </button>
+            <button type="submit" asp-page-handler="Unblock" class="btn btn-outline-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+                    <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2" />
+                </svg>
+            </button>
+            <button type="submit" asp-page-handler="Delete" class="btn btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                </svg>
+            </button>
         </div>
     </table>
 </form>
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#selectAll").click(function () {
+                $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+            });
+
+            $("input[type=checkbox]").click(function () {
+                if (!$(this).prop("checked")) {
+                    $("#selectAll").prop("checked", false);
+                }
+            });
+        });
+    </script>
+}
