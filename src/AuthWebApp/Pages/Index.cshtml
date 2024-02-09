@@ -51,10 +51,10 @@
                         @Html.DisplayFor(modelItem => modelItem.Users[i].Email)
                 </td>
                 <td>
-                        @Html.DisplayFor(modelItem => modelItem.Users[i].RegistrationTime)
+                        <time>@Model.Users[i].RegistrationTime.ToString("yyyy-MM-ddTHH:mm:ssZ")</time>
                 </td>
                 <td>
-                        @Html.DisplayFor(modelItem => modelItem.Users[i].LastLoginTime)
+                        <time>@Model.Users[i].LastLoginTime.ToString("yyyy-MM-ddTHH:mm:ssZ")</time>
                 </td>
                 <td>
                         @Html.DisplayFor(modelItem => modelItem.Users[i].BlockStatus)
@@ -96,11 +96,11 @@
                 }
             });
 
-            /*$("time").each(function (elem) {
+            $("time").each(function (elem) {
                 var utctimeval = $(this).html();
                 var date = new Date(utctimeval);
                 $(this).html(date.toLocaleString());
-            })*/
+            })
             //example call: <time>sobakaModel.Users[i].RegistrationTime.ToString("yyyy-MM-ddTHH:mm:ssZ")</time>
 
         });

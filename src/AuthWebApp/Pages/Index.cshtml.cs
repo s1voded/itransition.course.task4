@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Vivet.AspNetCore.RequestTimeZone.Extensions;
 
 namespace AuthWebApp.Pages
 {
@@ -23,15 +22,7 @@ namespace AuthWebApp.Pages
 
         public IActionResult OnGet()
         {
-            var requestTimeZone = HttpContext.GetUserTimeZone();
-            var users = _userManager.Users.ToList();
-
-            foreach (var user in users)
-            {         
-                user.LastLoginTime = TimeZoneInfo.ConvertTimeFromUtc(user.LastLoginTime, requestTimeZone);
-            }
-
-            Users = users;
+            Users = _userManager.Users.ToList();
 
             return Page();
         }
