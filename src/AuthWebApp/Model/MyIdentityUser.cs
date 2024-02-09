@@ -6,7 +6,7 @@ namespace AuthWebApp.Model
 {
     public class MyIdentityUser: IdentityUser
     {
-        [Display(Name = "Registration Time"), DataType(DataType.DateTime)]
+        [Display(Name = "Registration time"), DataType(DataType.DateTime)]
         public DateTime RegistrationTime { get; set; }
 
         [Display(Name = "Last login time"), DataType(DataType.DateTime)]

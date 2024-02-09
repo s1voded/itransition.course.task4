@@ -5,6 +5,7 @@ using AuthWebApp.Policies.Requirements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using Vivet.AspNetCore.RequestTimeZone.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/Login";
 });
 
+builder.Services.AddRequestTimeZone("Europe/Minsk");
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -54,6 +57,7 @@ else
     app.UseHsts();
 }
 
+app.UseRequestTimeZone();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
