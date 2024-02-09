@@ -9,6 +9,11 @@
       "ignored": "true",
       "type": "mssql",
       "connectionId": "ConnectionStrings:AzureConnection"
+    },
+    "secrets1": {
+      "ignored": "true",
+      "type": "secrets",
+      "connectionId": null
     }
   }
 }

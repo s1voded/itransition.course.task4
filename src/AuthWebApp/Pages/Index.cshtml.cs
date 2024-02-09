@@ -6,32 +6,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AuthWebApp.Pages
 {
-    //[Authorize]
+    [Authorize(Policy = "UserIsNotBlocked")]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly UserManager<MyIdentityUser> _userManager;
-        private readonly SignInManager<MyIdentityUser> _signInManager;
-        private string loginUrl = "/Identity/Account/Login";
-        public IList<MyIdentityUser> Users { get; set; } = default!;
-        [BindProperty]
-        public bool SelectAllUsers { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, UserManager<MyIdentityUser> userManager, SignInManager<MyIdentityUser> signInManager)
+        public IList<MyIdentityUser> Users { get; set; } = default!;
+
+        public IndexModel(ILogger<IndexModel> logger, UserManager<MyIdentityUser> userManager)
         {
             _logger = logger;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var userIsAllowPost = await UserIsAllowPost();
-            if (!userIsAllowPost)
-            {
-                return LocalRedirect(loginUrl);
-            }
-
             Users = _userManager.Users.ToList();
 
             return Page();
@@ -39,12 +29,6 @@ namespace AuthWebApp.Pages
 
         public async Task<IActionResult> OnPostBlockAsync(List<string> SelectedUserId)
         {
-            var userIsAllowPost = await UserIsAllowPost();
-            if (!userIsAllowPost) 
-            {
-                return LocalRedirect(loginUrl);
-            }
-
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -57,12 +41,6 @@ namespace AuthWebApp.Pages
 
         public async Task<IActionResult> OnPostUnblockAsync(List<string> SelectedUserId)
         {
-            var userIsAllowPost = await UserIsAllowPost();
-            if (!userIsAllowPost)
-            {
-                return LocalRedirect(loginUrl);
-            }
-
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -75,12 +53,6 @@ namespace AuthWebApp.Pages
 
         public async Task<IActionResult> OnPostDeleteAsync(List<string> SelectedUserId)
         {
-            var userIsAllowPost = await UserIsAllowPost();
-            if (!userIsAllowPost)
-            {
-                return LocalRedirect(loginUrl);
-            }
-
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -98,7 +70,6 @@ namespace AuthWebApp.Pages
             return RedirectToPage("./Index");
         }
 
-
         private async Task UpdateBlockStatusUser(List<string> SelectedUserId, bool status)
         {
             foreach (var selectedId in SelectedUserId)
@@ -113,23 +84,6 @@ namespace AuthWebApp.Pages
                     }
                 }
             }
-        }
-
-        private async Task<bool> UserIsAllowPost()
-        {
-            var allowPost = false;     
-
-            if (User.Identity.IsAuthenticated)
-            {
-                var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null && !currentUser.BlockStatus) allowPost = true;
-                else
-                {
-                    await _signInManager.SignOutAsync();
-                }
-            }
-
-            return allowPost;
         }
     }
 }

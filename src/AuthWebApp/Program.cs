@@ -1,6 +1,10 @@
 using AuthWebApp.Data;
 using AuthWebApp.Model;
+using AuthWebApp.Policies.Handlers;
+using AuthWebApp.Policies.Requirements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<MyIdentityUser>(options =>
@@ -20,6 +25,19 @@ builder.Services.AddDefaultIdentity<MyIdentityUser>(options =>
     options.Password.RequireUppercase = false;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserIsNotBlocked", policy =>
+        policy.Requirements.Add(new BlockStatusRequirement()));
+});
+builder.Services.AddTransient<IAuthorizationHandler, BlockStatusHandler>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Identity/Account/Login";
+});
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -41,6 +59,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
